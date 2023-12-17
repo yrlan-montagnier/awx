@@ -1,0 +1,7 @@
+---
+- name: Installer toutes les mises à jour disponible sans redémarrage
+  hosts: all
+  gather_facts: false
+  ansible.windows.win_updates:
+    category_names: '*'
+    reboot: false
