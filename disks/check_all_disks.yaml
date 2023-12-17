@@ -1,7 +1,7 @@
 ---
 - name: Check disk space and write to CSV
   hosts: all
-  become: true
+  become: false
   gather_facts: true
   collections: 
     - community.windows
