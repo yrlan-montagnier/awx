@@ -4,5 +4,5 @@
   gather_facts: false
   tasks:
     - name: Change the working directory to /Users/BODSMACPRD01/Desktop before executing the command
-      ansible.builtin.script: /data/projects/_19__os/macos/scripts/test.sh
+      ansible.builtin.script: /data/projects/_19__os/macos/scripts/hello_world.sh
       #ansible.builtin.shell: /Users/BODSMACPRD01/Desktop/Start_Test.sh
