@@ -1,0 +1,10 @@
+---
+- name: Install Windows Updates
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Install all security updates with automatic reboots
+    win_updates:
+      category_names:
+      - SecurityUpdates
+      reboot: no
