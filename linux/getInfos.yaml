@@ -1,6 +1,6 @@
 ---
-- name: Debug Kerberos Authentication
-  hosts: localhost
+- name: Get infos about Linux
+  hosts: all
   gather_facts: false
   tasks:
     - name: Get root user info

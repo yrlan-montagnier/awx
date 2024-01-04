@@ -1,0 +1,28 @@
+---
+- name: Get infos about MacOS
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Am I running on Mac OS X?
+      fail:
+        msg: Target host is not running Mac OS X
+      when: ansible_distribution != 'MacOSX'
+
+    - name: Check that the Command Line Tools path is present
+      stat:
+        path: '{{ clt_path }}'
+      register: clt
+
+    - name: Is xcode-select path set?
+      command: xcode-select -p
+      register: xcode_select
+      check_mode: no
+      ignore_errors: true
+      changed_when: false
+
+    - name: Check the Command Line Tools package metadata
+      command: pkgutil --pkg-info=com.apple.pkg.CLTools_Executables
+      register: pkg_info
+      check_mode: no
+      ignore_errors: true
+      changed_when: false
