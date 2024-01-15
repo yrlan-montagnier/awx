@@ -3,8 +3,8 @@
   hosts: all
   gather_facts: false
   tasks:
-  - name: Install all security updates with automatic reboots
-    win_updates:
-      category_names:
-      - SecurityUpdates
-      reboot: no
+    - name: Install all security updates with automatic reboots
+      ansible.windows.win_updates:
+        category_names:
+        - SecurityUpdates
+        reboot: yes

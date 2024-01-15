@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: Installation des mises à jour ...
-      win_updates:
+      ansible.windows.win_updates:
         category_names: '*'
         reboot: true
         reboot_timeout: 1200
