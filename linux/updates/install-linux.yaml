@@ -1,0 +1,12 @@
+---
+- name: Installe les mises à jour sur les serveurs Linux en vérifiant la distribution
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Check linux distribution
+      debug:
+        msg: running on distribution '{{ansible_os_family}}'
+
+    - name: Invoquer le bon fichier contenant la task correspondant à la distribution Linux
+      include_tasks: patch-debian.yaml
+      when: ansible_os_family == "Debian"

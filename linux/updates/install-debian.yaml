@@ -1,0 +1,27 @@
+---
+- name: Installation des mises à jour sur Debian
+  debug:
+    msg: Début de la recherche des mises à jour pour debian
+
+- name: Mises à jour des repos et du cache APT ...
+  become: yes
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+    cache_valid_time: 3600
+
+- name: Récupération de la liste des packets à mettre à jour ...
+  become: yes
+  command: apt list --upgradable
+  register: apt_updates
+
+- name: Afficher les mises à jour disponibles en mode DEBUG
+  debug:
+    msg: "{{ apt_updates.stdout_lines }}"
+
+- name: Installation des mises à jour ...
+  become: yes
+  become_user: root
+  apt:
+    name: "*"
+    state: latest

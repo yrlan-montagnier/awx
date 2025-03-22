@@ -1,0 +1,8 @@
+---
+- name: Execute MacOS Shell Script
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Change the working directory to /Users/BODSMACPRD01/Desktop before executing the command
+      ansible.builtin.script: scripts/hello_world.sh
+      #ansible.builtin.shell: /Users/BODSMACPRD01/Desktop/Start_Test.sh

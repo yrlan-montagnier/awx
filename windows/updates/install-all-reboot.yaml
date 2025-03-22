@@ -1,0 +1,10 @@
+---
+- name: Installer toutes les mises à jour disponible et redémarrer
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Installation des mises à jour ...
+      ansible.windows.win_updates:
+        category_names: '*'
+        reboot: true
+        reboot_timeout: 1200

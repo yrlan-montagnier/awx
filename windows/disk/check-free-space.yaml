@@ -1,0 +1,12 @@
+---
+- name: Rechercher et afficher l'espace disque libre
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: "Vérification de l'espace disque disponible sur le disque C:"
+      win_shell: "write-host ([math]::Round((Get-PSDrive C | Select-Object Free).free / 1024 / 1024 / 1024,2))"
+      register: freespace
+
+    - name: "Espace libre sur le disque :"
+      debug:
+        msg: "{{ freespace.stdout }} GB"
