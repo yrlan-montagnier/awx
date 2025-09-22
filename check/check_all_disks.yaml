@@ -1,0 +1,45 @@
+---
+- name: Check disk space and write to CSV
+  hosts: all
+  become: false
+  gather_facts: true
+  collections: 
+    - community.windows
+  tasks:
+    - name: Rechercher l'espace disque sur Linux
+      block:
+        # Vérifier la distribution Linux
+        - name: Vérifier si le système est rhel
+          set_fact:
+            is_rhel: "{{ ansible_distribution | lower == 'rhel' }}"
+          ignore_errors: true
+        - name: Vérifier si le système est/Debian
+          set_fact:
+            is_ubuntu: "{{ ansible_distribution | lower == 'ubuntu' }}"
+          ignore_errors: true
+        # Rechercher l'espace disque avec df -hT
+        - name: Rechercher l'espace disque sur rhel
+          command: df -hT
+          when: is_rhel | bool
+          register: RedHat_Disk_Space
+        - name: Rechercher l'espace disque sur Ubuntu/Debian
+          command: df -hT
+          when: is_ubuntu | bool
+          register: ubuntu_disk_space
+        # Afficher l'espace disque
+        - name: Afficher l'espace disque sur RHEL
+          debug:
+            msg: "{{ RedHat_Disk_Space.stdout_lines }}"
+          when: is_rhel | bool
+        - name: Afficher l'espace disque sur Ubuntu/Debian
+          debug:
+            msg: "{{ ubuntu_disk_space.stdout_lines }}"
+          when: is_ubuntu | bool
+      when: "ansible_os_family == 'RedHat' or ansible_os_family == 'Debian'"
+
+    - name: Rechercher l'espace disque sur Windows
+      community.windows.win_disk_facts:
+        filter:
+          - physical_disk
+          - partitions
+      when: ansible_os_family == 'Windows'
